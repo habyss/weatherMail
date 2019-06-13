@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  */
 @Service
 public class TestTaskService {
-    @Scheduled(cron = "0 * * * * ?")
+    // @Scheduled(cron = "0 * * * * ?")
     public void test(){
         System.out.println(LocalDateTime.now() + " TestTaskService ... ");
     }

@@ -1,13 +1,12 @@
 package com.test.demo.entity;
 
 /**
- * @author kun.han
+ * @author kun.han on 2019/5/22 9:40
  */
-public class User {
+public class Answer {
     private String name;
 
-    private Integer age;
-
+    private int status;
 
     public String getName() {
         return name;
@@ -17,19 +16,19 @@ public class User {
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public int getStatus() {
+        return status;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Answer{" +
                 "name='" + name + '\'' +
-                ", age=" + age +
+                ", status=" + status +
                 '}';
     }
 }

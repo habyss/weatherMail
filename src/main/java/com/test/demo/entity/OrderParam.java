@@ -14,6 +14,16 @@ public class OrderParam {
 
     private List<User> users;
 
+    private List<OrderParam> orderParam;
+
+    public List<OrderParam> getOrderParam() {
+        return orderParam;
+    }
+
+    public void setOrderParam(List<OrderParam> orderParam) {
+        this.orderParam = orderParam;
+    }
+
     public User getUser() {
         return user;
     }
