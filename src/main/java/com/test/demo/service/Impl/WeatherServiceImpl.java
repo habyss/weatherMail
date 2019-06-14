@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,7 +73,7 @@ public class WeatherServiceImpl implements WeatherService {
         simpleMailMessage.setTo(to);
         simpleMailMessage.setFrom(from);
         simpleMailMessage.setSubject(subject);
-        simpleMailMessage.setText(getTextBody(weather,weatherCustom));
+        simpleMailMessage.setText(getTextBody(weather, weatherCustom));
         // 发送邮件
         javaMailSender.send(simpleMailMessage);
         System.out.println("邮件已发送");
@@ -81,20 +83,32 @@ public class WeatherServiceImpl implements WeatherService {
     //👻[得意][骷髅][衰][西瓜][啤酒][太阳][月亮][捂脸][奸笑][机智][耶]😝💪🌂🙈🙊🐒🙉☀️🌤⛅️🌥☁️🌦🌧⛈🌩🌨❄️☃️⛄️🌬💨☔️☂️🌫🌪🌈🍻🍺🚶‍♀️🚶‍♂️🕢
 
     private String getTextBody(Weather weather, WeatherCustom weatherCustom) {
+        LocalDateTime now = LocalDateTime.now();
         StringBuilder sb = new StringBuilder();
-        sb      .append("\n\uD83D\uDC7B 嘻嘻，崽崽天气来了，今天的温度是").append(weather.getTempn()).append("-").append(weather.getTemp()).append("，天气").append(weather.getWeather()).append("\uD83C\uDF24，风力").append(weather.getWs()).append("️\uD83C\uDF2C\n\n")
+        sb.append("\n\uD83D\uDC7B 嘻嘻，崽崽天气来了，今天的温度是").append(weather.getTempn()).append("-").append(weather.getTemp()).append("，天气").append(weather.getWeather()).append("\uD83C\uDF24，风力").append(weather.getWs()).append("️\uD83C\uDF2C\n\n")
                 .append("还有今天").append(weatherCustom.getCo_des_s()).append("\n\n")
-                .append("紫外线呢，[太阳]").append(weatherCustom.getUv_des_s().replaceAll("。","，")).append("貌似这个也不用我提醒了\uD83E\uDD14️\n\n")
-                .append("看看今天能不能去逛街\uD83D\uDEB6\u200D♀呢\uD83E\uDDD0 ").append(weatherCustom.getGj_des_s()).append("\n\n")
-                .append("不能喝酒的人，还老是想喝酒，今天").append(weatherCustom.getPj_des_s().replaceAll("。","，")).append("但是啤酒\uD83C\uDF7B不好喝噻\n\n")
+                .append("紫外线呢，[太阳]").append(weatherCustom.getUv_des_s().replaceAll("。", "，")).append("貌似这个也不用我提醒了\uD83E\uDD14️\n\n");
+        if (DayOfWeek.SATURDAY.equals(now.getDayOfWeek()) || DayOfWeek.SUNDAY.equals(now.getDayOfWeek())) {
+            sb.append("周末呢~ 看看今天能不能去逛街\uD83D\uDEB6\u200D♀\uD83E\uDDD0 ");
+        } else {
+            sb.append("工作日不能出去逛街，但是也看看呗\uD83D\uDC12，");
+        }
+        sb.append(weatherCustom.getGj_des_s()).append("\n\n")
+                .append("不能喝酒的人，还老是想喝酒，今天").append(weatherCustom.getPj_des_s().replaceAll("。", "，")).append("但是啤酒\uD83C\uDF7B不好喝噻\n\n")
                 .append("身体是革命的本钱呢\uD83D\uDCAA，").append(weatherCustom.getGm_des_s()).append(weatherCustom.getZs_des_s()).append("\n\n")
-                .append("今天洗不洗衣服呢，周末的早晨，应该可以洗一洗吧\uD83D\uDC12，").append(weatherCustom.getLs_des_s()).append("\n\n")
+                .append("今天洗不洗衣服呢，");
+        if (DayOfWeek.SATURDAY.equals(now.getDayOfWeek()) || DayOfWeek.SUNDAY.equals(now.getDayOfWeek())) {
+            sb.append("周末的早晨，应该可以洗一洗吧\uD83D\uDC12，");
+        } else {
+            sb.append("工作日呢，不能洗衣服噻\uD83D\uDC12，");
+        }
+        sb.append(weatherCustom.getLs_des_s()).append("\n\n")
                 .append("老是忘记带伞\uD83C\uDF02的小柔柔，").append(weatherCustom.getYs_des_s()).append("\n")
-                ;
+        ;
         return sb.toString();
     }
 
-    public String getSubject(){
+    public String getSubject() {
         List<String> subject = weatherConfigMapper.getAllByType("subject").stream().map(WeatherConfig::getValue).collect(Collectors.toList());
 
 //        LocalDateTime now = LocalDateTime.now();
