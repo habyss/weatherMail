@@ -1,6 +1,6 @@
 package com.test.demo.controller;
 
-import com.test.demo.task.WeatherService;
+import com.test.demo.service.Impl.WeatherServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,10 +12,10 @@ import javax.annotation.Resource;
 @RestController
 public class TestWeatherController {
     @Resource
-    WeatherService weatherService;
+    WeatherServiceImpl weatherService;
 
     @GetMapping("testWeather")
     public void test(){
-        weatherService.getWeather();
+        weatherService.sendWeatherMail();
     }
 }

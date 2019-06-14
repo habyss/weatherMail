@@ -1,114 +1,66 @@
 package com.test.demo.controller;
 
-import com.test.demo.annotation.RequestLimit;
-import com.test.demo.entity.Answer;
-import com.test.demo.entity.OrderParam;
-import com.test.demo.entity.User;
-import com.test.demo.entity.UserList;
-import com.test.demo.service.TestService;
-import com.test.demo.service.TestServiceNoTranOnClass;
-import com.test.demo.task.TestTaskService;
+import com.test.demo.entity.WeatherConfig;
+import com.test.demo.mapper.WeatherConfigMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * @author kun.han
+ * @author kun.han on 2019/6/14 11:12
  */
 @RestController
 public class TestController {
+    @Resource
+    private RestTemplate restTemplate;
 
     @Resource
-    private TestTaskService testTaskService;
+    private JavaMailSenderImpl javaMailSender;
 
     @Resource
-    private TestService testService;
+    private WeatherConfigMapper weatherConfigMapper;
 
-    @Resource
-    private TestServiceNoTranOnClass testServiceNoTranOnClass;
-
-
-    @RequestLimit
-    @PostMapping("test")
-    public OrderParam testRequestParam(OrderParam orderParam,
-                                       @RequestParam("activityId") Integer activityId) {
-
-        System.out.println("activityId = " + activityId);
-        List<User> users = orderParam.getUsers();
-        User user1 = orderParam.getUser();
-        System.out.println(user1);
-        for (User user : users) {
-            System.out.println("list" + user);
-        }
-        return orderParam;
+    @GetMapping("test")
+    public void test(){
+//        String url = "https://weather.com/zh-CN/weather/today/l/31.25,121.58?par=apple_widget&locale=zh_CN";
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1");
+//        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+//        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+//        System.out.println(responseEntity.getBody());
+//
+//        // 整理邮件数据
+//        List<String> list = weatherConfigMapper.getAllByType("to").stream().map(WeatherConfig::getValue).collect(Collectors.toList());
+//        String[] to = list.toArray(new String[list.size()]);
+//        String from = weatherConfigMapper.getOneByType("from").getValue();
+//        String subject = weatherConfigMapper.getOneByType("subject").getValue();
+//
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        try {
+//            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true,"utf-8");
+//            // 设置收件人 寄件人 内容
+//            messageHelper.setTo(to);
+//            messageHelper.setFrom(from);
+//            messageHelper.setSubject(subject);
+//            messageHelper.setText(responseEntity.getBody()/*.replaceAll("<footer([\\s\\S]*?)footer>","")
+//                    .replaceAll("<aside([\\s\\S]*?)aside>","")*/,true);
+//            javaMailSender.send(mimeMessage);
+//            System.out.println("邮件已发送");
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
     }
-
-
-    @GetMapping("testTask")
-    public void testTask() {
-        testTaskService.test();
-    }
-
-    @PostMapping("ttt")
-    public UserList ttt(UserList users,
-                        @RequestParam("dd") Integer dd) {
-        for (User param : users.getUsersL()) {
-            System.out.println(param);
-        }
-        return users;
-    }
-
-    @PostMapping("hk")
-    public void hk(UserList users,
-                   @RequestParam("dd") Integer dd) {
-        for (User user : users.getUsersL()) {
-            System.out.println(user);
-        }
-        for (Answer answer : users.getAnswers()) {
-            System.out.println(answer);
-        }
-        System.out.println(dd);
-    }
-
-    @GetMapping("tran")
-    public void tran() {
-        // 同一个事务类中的方法
-        testService.test();
-    }
-
-    @GetMapping("tran1")
-    public void tran1() {
-        // 同一个类中的 非事务方法调用 事务方法和非事务方法
-        testServiceNoTranOnClass.test();
-    }
-
-    @GetMapping("tran2")
-    public void tran2() {
-        // 同一个类中的 非事务方法调用 非事务方法和事务方法
-        testServiceNoTranOnClass.test2();
-    }
-
-    @GetMapping("tran3")
-    public void tran3() {
-        // 同一个类中的 事务方法调用 事务方法
-        testServiceNoTranOnClass.testTranGamer();
-    }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
