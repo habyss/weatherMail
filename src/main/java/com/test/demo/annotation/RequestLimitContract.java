@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class RequestLimitContract {
 
-    @Before("@annotation(limit))")
+    @Before("@annotation(limit)")
     public void requestLimit(final JoinPoint joinPoint, RequestLimit limit) {
         System.out.println("limit - count" + limit.count() + " time" + limit.time());
         String ip = getIp();

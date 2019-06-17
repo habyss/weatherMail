@@ -38,6 +38,11 @@ public class WeatherServiceImpl implements WeatherService {
     @Resource
     private WeatherConfigMapper weatherConfigMapper;
 
+    /**
+     * 发送邮件
+     *
+     * @return string
+     */
     @Override
     public String sendWeatherMail() {
         // 设置获取天气途径
@@ -81,6 +86,13 @@ public class WeatherServiceImpl implements WeatherService {
     //🧐  🤪
     //👻[得意][骷髅][衰][西瓜][啤酒][太阳][月亮][捂脸][奸笑][机智][耶]😝💪🌂🙈🙊🐒🙉☀️🌤⛅️🌥☁️🌦🌧⛈🌩🌨❄️☃️⛄️🌬💨☔️☂️🌫🌪🌈🍻🍺🚶‍♀️🚶‍♂️🕢
 
+    /**
+     * 获得邮件体
+     *
+     * @param weather       天气
+     * @param weatherCustom 天气
+     * @return string
+     */
     private String getTextBody(Weather weather, WeatherCustom weatherCustom) {
 
         LocalDateTime now = LocalDateTime.now();
@@ -110,6 +122,11 @@ public class WeatherServiceImpl implements WeatherService {
         return sb.toString();
     }
 
+    /**
+     * 获取一个subject
+     *
+     * @return string
+     */
     public String getSubject() {
 
         LocalDateTime now = LocalDateTime.now();

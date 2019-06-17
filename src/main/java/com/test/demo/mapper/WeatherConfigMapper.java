@@ -1,7 +1,10 @@
 package com.test.demo.mapper;
 
 import com.test.demo.entity.WeatherConfig;
-import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author kun.han on 2019/6/17 9:43
@@ -24,7 +27,7 @@ public interface WeatherConfigMapper {
 
     List<WeatherConfig> getAllByType(@Param("type") String type);
 
-    WeatherConfig getSubject(@Param("type")String type);
+    WeatherConfig getSubject(@Param("type") String type);
 
 
 }

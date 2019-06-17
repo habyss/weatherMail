@@ -15,6 +15,9 @@ public class WeatherServiceTask {
     @Resource
     private WeatherServiceImpl weatherService;
 
+    /**
+     * 发送邮件 定时任务
+     */
     @Scheduled(cron = "0 30 7 * * ?")
     public void getWeather() {
         weatherService.sendWeatherMail();

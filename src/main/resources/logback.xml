@@ -6,7 +6,7 @@
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-    <property name="LOG_HOME" value="/log" />
+    <property name="LOG_HOME" value="/log"/>
     <appender name="sqlLog"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_HOME}/mysql.log</File>
@@ -44,7 +44,7 @@
             <!-- 此处设置字符集 -->
         </encoder>
     </appender>
-     <root level="INFO">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
     <!--<logger name="org.mytian.common" level="ERROR">
@@ -56,8 +56,8 @@
         <appender-ref ref="STDOUT"/>
     </logger>-->
     <logger name="com.test.demo.mapper" level="DEBUG" additivity="false">
-        <appender-ref ref="sqlLog" />
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="sqlLog"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="com.test.demo.service" level="WARN"/>
 </configuration>
