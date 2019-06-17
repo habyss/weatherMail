@@ -1,5 +1,6 @@
 package com.test.demo.service.Impl;
 
+import com.alibaba.druid.sql.visitor.functions.Now;
 import com.alibaba.fastjson.JSONObject;
 import com.test.demo.entity.Weather;
 import com.test.demo.entity.WeatherConfig;
@@ -7,6 +8,7 @@ import com.test.demo.entity.WeatherCustom;
 import com.test.demo.entity.WeatherDetail;
 import com.test.demo.mapper.WeatherConfigMapper;
 import com.test.demo.service.WeatherService;
+import com.test.demo.utils.Constant;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -17,6 +19,7 @@ import javax.annotation.Resource;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,11 +38,8 @@ public class WeatherServiceImpl implements WeatherService {
     @Resource
     private WeatherConfigMapper weatherConfigMapper;
 
-    /**
-     * sendWeatherMail
-     */
     @Override
-    public void sendWeatherMail() {
+    public String sendWeatherMail() {
         // 设置获取天气途径
         String url = "http://d1.weather.com.cn/weather_index/101020100.html?_=" + System.currentTimeMillis();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -64,40 +64,42 @@ public class WeatherServiceImpl implements WeatherService {
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         // 整理邮件数据
-        List<String> list = weatherConfigMapper.getAllByType("to").stream().map(WeatherConfig::getValue).collect(Collectors.toList());
+        List<String> list = weatherConfigMapper.getAllByType(Constant.TYPE_TO).stream().map(WeatherConfig::getValue).collect(Collectors.toList());
         String[] to = list.toArray(new String[list.size()]);
-        String from = weatherConfigMapper.getOneByType("from").getValue();
-        String subject = weatherConfigMapper.getOneByType("subject").getValue();
+        String from = weatherConfigMapper.getOneByType(Constant.TYPE_FROM).getValue();
 
         // 设置收件人 寄件人 内容
         simpleMailMessage.setTo(to);
         simpleMailMessage.setFrom(from);
-        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setSubject(getSubject());
         simpleMailMessage.setText(getTextBody(weather, weatherCustom));
         // 发送邮件
         javaMailSender.send(simpleMailMessage);
-        System.out.println("邮件已发送");
+        return Constant.SUCCESS_SEND;
 
     }
-    //🧐
+    //🧐  🤪
     //👻[得意][骷髅][衰][西瓜][啤酒][太阳][月亮][捂脸][奸笑][机智][耶]😝💪🌂🙈🙊🐒🙉☀️🌤⛅️🌥☁️🌦🌧⛈🌩🌨❄️☃️⛄️🌬💨☔️☂️🌫🌪🌈🍻🍺🚶‍♀️🚶‍♂️🕢
 
     private String getTextBody(Weather weather, WeatherCustom weatherCustom) {
+
         LocalDateTime now = LocalDateTime.now();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
         StringBuilder sb = new StringBuilder();
+
         sb.append("\n\uD83D\uDC7B 嘻嘻，崽崽天气来了，今天的温度是").append(weather.getTempn()).append("-").append(weather.getTemp()).append("，天气").append(weather.getWeather()).append("\uD83C\uDF24，风力").append(weather.getWs()).append("️\uD83C\uDF2C\n\n")
                 .append("还有今天").append(weatherCustom.getCo_des_s()).append("\n\n")
                 .append("紫外线呢，[太阳]").append(weatherCustom.getUv_des_s().replaceAll("。", "，")).append("貌似这个也不用我提醒了\uD83E\uDD14️\n\n");
-        if (DayOfWeek.SATURDAY.equals(now.getDayOfWeek()) || DayOfWeek.SUNDAY.equals(now.getDayOfWeek())) {
+        if (DayOfWeek.SATURDAY.equals(dayOfWeek) || DayOfWeek.SUNDAY.equals(dayOfWeek)) {
             sb.append("周末呢~ 看看今天能不能去逛街\uD83D\uDEB6\u200D♀\uD83E\uDDD0 ");
         } else {
-            sb.append("工作日不能出去逛街，但是也看看呗\uD83D\uDC12，");
+            sb.append(dayOfWeek.toString().toLowerCase()).append("\uD83E\uDD2A，不能出去逛街，但是也看看呗\uD83D\uDC12，");
         }
         sb.append(weatherCustom.getGj_des_s()).append("\n\n")
                 .append("不能喝酒的人，还老是想喝酒，今天").append(weatherCustom.getPj_des_s().replaceAll("。", "，")).append("但是啤酒\uD83C\uDF7B不好喝噻\n\n")
                 .append("身体是革命的本钱呢\uD83D\uDCAA，").append(weatherCustom.getGm_des_s()).append(weatherCustom.getZs_des_s()).append("\n\n")
                 .append("今天洗不洗衣服呢，");
-        if (DayOfWeek.SATURDAY.equals(now.getDayOfWeek()) || DayOfWeek.SUNDAY.equals(now.getDayOfWeek())) {
+        if (DayOfWeek.SATURDAY.equals(dayOfWeek) || DayOfWeek.SUNDAY.equals(dayOfWeek)) {
             sb.append("周末的早晨，应该可以洗一洗吧\uD83D\uDC12，");
         } else {
             sb.append("工作日呢，不能洗衣服噻\uD83D\uDC12，");
@@ -109,14 +111,59 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     public String getSubject() {
-        List<String> subject = weatherConfigMapper.getAllByType("subject").stream().map(WeatherConfig::getValue).collect(Collectors.toList());
 
-//        LocalDateTime now = LocalDateTime.now();
-//        LocalDateTime.
-//        if (now.getHour() < 18 && now.getMinute()<30){
-//            return "还有" +
-//        }
+        LocalDateTime now = LocalDateTime.now();
+        Date nowDate = new Date();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
 
-        return null;
+        WeatherConfig subject = weatherConfigMapper.getSubject(Constant.TYPE_SUBJECT);
+        subject.setUpdateTime(nowDate);
+        weatherConfigMapper.updateByPrimaryKey(subject);
+
+        return "\uD83E\uDDD0" + subject.getValue();
+    }
+
+    /**
+     * 增加subject
+     *
+     * @param subject subject
+     * @return string
+     */
+    @Override
+    public String addSubject(String subject) {
+        Date now = new Date();
+        WeatherConfig weather = new WeatherConfig();
+        weather.setUpdateTime(now);
+        weather.setStatus(1);
+        weather.setType(Constant.TYPE_SUBJECT);
+        weather.setValue(subject);
+        weatherConfigMapper.insert(weather);
+        return Constant.SUCCESS_ADD;
+    }
+
+    /**
+     * 删除subject
+     *
+     * @param id id
+     * @return string
+     */
+    @Override
+    public String deleteSubject(Long id) {
+        WeatherConfig weatherConfig = new WeatherConfig();
+        weatherConfig.setStatus(0);
+        weatherConfig.setId(id);
+        weatherConfigMapper.updateByPrimaryKeySelective(weatherConfig);
+        return Constant.SUCCESS_DELETE;
+    }
+
+    /**
+     * 获取所有的subject
+     *
+     * @param type type
+     * @return string
+     */
+    @Override
+    public List<WeatherConfig> getAllSubject() {
+        return weatherConfigMapper.getAllByType(Constant.TYPE_SUBJECT);
     }
 }
