@@ -35,7 +35,7 @@ public interface WeatherService {
     /**
      * 获取所有的subject
      *
-     * @return string
+     * @return list
      */
     List<WeatherConfig> getAllSubject();
 }

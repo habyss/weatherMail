@@ -1,6 +1,5 @@
 package com.test.demo.service.Impl;
 
-import com.alibaba.druid.sql.visitor.functions.Now;
 import com.alibaba.fastjson.JSONObject;
 import com.test.demo.entity.Weather;
 import com.test.demo.entity.WeatherConfig;
@@ -9,6 +8,8 @@ import com.test.demo.entity.WeatherDetail;
 import com.test.demo.mapper.WeatherConfigMapper;
 import com.test.demo.service.WeatherService;
 import com.test.demo.utils.Constant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class WeatherServiceImpl implements WeatherService {
+
+    Logger logger = LoggerFactory.getLogger(WeatherServiceImpl.class);
 
     @Resource
     private RestTemplate restTemplate;
@@ -46,6 +50,7 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public String sendWeatherMail() {
         // 设置获取天气途径
+        logger.info("设置天气途径");
         String url = "http://d1.weather.com.cn/weather_index/101020100.html?_=" + System.currentTimeMillis();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Referer", "http://www.weather.com.cn/weather1d/101020100.shtml");
@@ -57,18 +62,21 @@ public class WeatherServiceImpl implements WeatherService {
         httpHeaders.setAccept(acceptableMediaTypes);
 
         // 获取天气接口返回数据
+        logger.info("获取天气数据");
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
         //整理数据
+        logger.info("整理天气数据");
         String data = responseEntity.getBody();
         String[] split = data.replaceAll(" ", "").split("var");
         Weather weather = JSONObject.parseObject(split[1].substring(split[1].indexOf(":") + 1, split[1].length() - 2), Weather.class);
         WeatherDetail weatherDetail = JSONObject.parseObject(split[3].substring(split[3].indexOf("=") + 1, split[3].length() - 1), WeatherDetail.class);
         WeatherCustom weatherCustom = JSONObject.parseObject(split[4].substring(split[4].indexOf(":") + 1, split[4].lastIndexOf(",")), WeatherCustom.class);
 
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         // 整理邮件数据
+        logger.info("整理邮件数据");
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         List<String> list = weatherConfigMapper.getAllByType(Constant.TYPE_TO).stream().map(WeatherConfig::getValue).collect(Collectors.toList());
         String[] to = list.toArray(new String[list.size()]);
         String from = weatherConfigMapper.getOneByType(Constant.TYPE_FROM).getValue();
@@ -79,7 +87,9 @@ public class WeatherServiceImpl implements WeatherService {
         simpleMailMessage.setSubject(getSubject());
         simpleMailMessage.setText(getTextBody(weather, weatherCustom));
         // 发送邮件
+        logger.info("发送天气邮件");
         javaMailSender.send(simpleMailMessage);
+        logger.info(Constant.SUCCESS_SEND);
         return Constant.SUCCESS_SEND;
 
     }
@@ -155,6 +165,7 @@ public class WeatherServiceImpl implements WeatherService {
         weather.setType(Constant.TYPE_SUBJECT);
         weather.setValue(subject);
         weatherConfigMapper.insert(weather);
+        logger.info(Constant.SUCCESS_ADD + " -- subject:" + weather.getValue());
         return Constant.SUCCESS_ADD;
     }
 
@@ -170,14 +181,14 @@ public class WeatherServiceImpl implements WeatherService {
         weatherConfig.setStatus(0);
         weatherConfig.setId(id);
         weatherConfigMapper.updateByPrimaryKeySelective(weatherConfig);
+        logger.info(Constant.SUCCESS_DELETE + " -- id:" + id);
         return Constant.SUCCESS_DELETE;
     }
 
     /**
      * 获取所有的subject
      *
-     * @param type type
-     * @return string
+     * @return list
      */
     @Override
     public List<WeatherConfig> getAllSubject() {

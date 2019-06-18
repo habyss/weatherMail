@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class TestWeatherController {
     @Resource
-    WeatherServiceImpl weatherService;
+    private WeatherServiceImpl weatherService;
 
     @GetMapping("sendWeatherMail")
     public String sendWeatherMail(){

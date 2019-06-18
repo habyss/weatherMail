@@ -44,20 +44,18 @@
             <!-- 此处设置字符集 -->
         </encoder>
     </appender>
+
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
-    <!--<logger name="org.mytian.common" level="ERROR">
-        <appender-ref ref="errorLog"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="org.mytian" level="ERROR">
-        <appender-ref ref="errorLog"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>-->
+
     <logger name="com.test.demo.mapper" level="DEBUG" additivity="false">
         <appender-ref ref="sqlLog"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="com.test.demo.service" level="WARN"/>
+
+    <logger name="com.test.demo.service" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
 </configuration>
