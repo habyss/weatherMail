@@ -82,6 +82,7 @@ public class WeatherServiceImpl implements WeatherService {
         String from = weatherConfigMapper.getOneByType(Constant.TYPE_FROM).getValue();
 
         // 设置收件人 寄件人 内容
+        logger.info("收件人 :[{}]", JSONObject.toJSON(to));
         simpleMailMessage.setTo(to);
         simpleMailMessage.setFrom(from);
         simpleMailMessage.setSubject(getSubject());
@@ -147,7 +148,7 @@ public class WeatherServiceImpl implements WeatherService {
         subject.setUpdateTime(nowDate);
         weatherConfigMapper.updateByPrimaryKey(subject);
 
-        return "\uD83E\uDDD0" + subject.getValue();
+        return subject.getValue();
     }
 
     /**

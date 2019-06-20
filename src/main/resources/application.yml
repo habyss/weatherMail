@@ -3,7 +3,7 @@ spring:
     username: hankun
     password: Hankun0421.
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.107.137.149:3306/wf?allowMultiQueries=true
+    url: jdbc:mysql://47.107.137.149:3306/wf?serverTimezone=CTT
   mail:
     host: smtp.163.com
     username: hankun_0421@163.com
