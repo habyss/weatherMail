@@ -1,7 +1,7 @@
 spring:
   datasource:
-    username: root
-    password: Hankun4211.
+    username: hankun
+    password: Hankun0421.
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://47.107.137.149:3306/wf?allowMultiQueries=true
   mail:
@@ -13,3 +13,4 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 server:
   port: 917
+
