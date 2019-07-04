@@ -1,8 +1,10 @@
 package com.test.demo.mapper;
 
 import com.test.demo.entity.WeatherConfig;
+import com.test.demo.entity.WeatherConfigCommand;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -11,8 +13,6 @@ import java.util.List;
  */
 @Mapper
 public interface WeatherConfigMapper {
-    int deleteByPrimaryKey(Long id);
-
     int insert(WeatherConfig record);
 
     int insertSelective(WeatherConfig record);
@@ -29,5 +29,10 @@ public interface WeatherConfigMapper {
 
     WeatherConfig getSubject(@Param("type") String type);
 
+
+    @Select("select * from wf.weather_config")
+    List<WeatherConfigCommand> getAllTest();
+
+    int deleteByPrimaryKey(Long id);
 
 }
