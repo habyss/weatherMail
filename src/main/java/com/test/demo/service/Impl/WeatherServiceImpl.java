@@ -5,7 +5,7 @@ import com.test.demo.entity.Weather;
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.entity.WeatherCustom;
 import com.test.demo.entity.WeatherDetail;
-import com.test.demo.mapper.WeatherConfigMapper;
+import com.test.demo.mapper.wf.WeatherConfigMapper;
 import com.test.demo.service.WeatherService;
 import com.test.demo.utils.Constant;
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

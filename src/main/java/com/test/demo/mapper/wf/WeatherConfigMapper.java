@@ -1,4 +1,4 @@
-package com.test.demo.mapper;
+package com.test.demo.mapper.wf;
 
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.entity.WeatherConfigCommand;
@@ -30,7 +30,6 @@ public interface WeatherConfigMapper {
     WeatherConfig getSubject(@Param("type") String type);
 
 
-    @Select("select * from wf.weather_config")
     List<WeatherConfigCommand> getAllTest();
 
     int deleteByPrimaryKey(Long id);

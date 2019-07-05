@@ -1,7 +1,7 @@
 package com.test.demo.service.Impl;
 
 import com.test.demo.entity.WeatherConfig;
-import com.test.demo.mapper.WeatherConfigMapper;
+import com.test.demo.mapper.wf.WeatherConfigMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

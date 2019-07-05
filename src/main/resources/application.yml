@@ -1,9 +1,15 @@
 spring:
   datasource:
-    username: hankun
-    password: Hankun0421.
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.107.137.149:3306/wf?serverTimezone=CTT
+    wf:
+      username: hankun
+      password: Hankun0421.
+      driverClassName: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://47.107.137.149:3306/wf?serverTimezone=CTT
+    test:
+      username: hankun
+      password: Hankun0421.
+      driverClassName: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://47.107.137.149:3306/test?serverTimezone=CTT
   mail:
     host: smtp.163.com
     username: hankun_0421@163.com
@@ -16,7 +22,7 @@ spring:
     password: Hankun0421
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+#  mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
     use-generated-keys: true

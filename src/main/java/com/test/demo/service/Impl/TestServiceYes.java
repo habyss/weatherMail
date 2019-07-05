@@ -1,15 +1,12 @@
 package com.test.demo.service.Impl;
 
 import com.test.demo.entity.WeatherConfig;
-import com.test.demo.mapper.WeatherConfigMapper;
+import com.test.demo.mapper.wf.WeatherConfigMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author kun.han on 2019/6/28 11:15
@@ -41,14 +38,4 @@ public class TestServiceYes {
         }
         weatherConfigMapper.updateByPrimaryKeySelective(weatherConfig);
     }
-    public List<WeatherConfig> test(){
-        WeatherConfig config = weatherConfigMapper.selectByPrimaryKey(1L);
-        config.setStatus(4);
-        WeatherConfig weatherConfig = weatherConfigMapper.selectByPrimaryKey(80L);
-        if (weatherConfig == null){
-            weatherConfigMapper.insert(config);
-        }
-        return weatherConfigMapper.selectByStatus(4);
-    }
-
 }

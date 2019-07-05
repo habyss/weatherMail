@@ -1,8 +1,10 @@
 package com.test.demo.controller;
 
+import com.test.demo.entity.User;
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.entity.WeatherConfigCommand;
-import com.test.demo.mapper.WeatherConfigMapper;
+import com.test.demo.mapper.wf.WeatherConfigMapper;
+import com.test.demo.service.Impl.TestService;
 import com.test.demo.service.Impl.TestServiceNo;
 import com.test.demo.service.Impl.TestServiceYes;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -34,6 +36,8 @@ public class TestController {
     @Resource
     TestServiceYes testServiceYes;
 
+    @Resource
+    TestService testService;
 
     @GetMapping("testNo")
     public void testNo(){
@@ -50,11 +54,6 @@ public class TestController {
         testServiceYes.testNo();
     }
 
-    @GetMapping("test")
-    public List<WeatherConfig> test(){
-        return testServiceYes.test();
-    }
-
     @GetMapping("getAllTest")
     public List<WeatherConfigCommand> getAllTest(){
         List<WeatherConfigCommand> test = weatherConfigMapper.getAllTest();
@@ -69,4 +68,8 @@ public class TestController {
         return weatherConfigMapper.getAllByType(type);
     }
 
+    @GetMapping("testInsert")
+    public User testInsert(){
+        return testService.testInsert();
+    }
 }
