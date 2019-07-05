@@ -15,10 +15,18 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 
+/**
+ * @author kun.han
+ */
 @Configuration
 @MapperScan(basePackages = "com.test.demo.mapper.test", sqlSessionTemplateRef  = "testSqlSessionTemplate")
 public class DataSourceConfigTest {
 
+    @Bean(name = "testConfiguration")
+    @ConfigurationProperties(prefix = "mybatis.configuration.test")
+    public org.apache.ibatis.session.Configuration configuration(){
+        return new org.apache.ibatis.session.Configuration();
+    }
 
     @Bean(name = "testDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.test")
@@ -27,11 +35,9 @@ public class DataSourceConfigTest {
     }
 
     @Bean(name = "testSqlSessionFactory")
-    public SqlSessionFactory testSqlSessionFactory(@Qualifier("testDataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory testSqlSessionFactory(@Qualifier("testDataSource") DataSource dataSource,@Qualifier("testConfiguration") org.apache.ibatis.session.Configuration configuration) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        configuration.setMapUnderscoreToCamelCase(true);
         bean.setConfiguration(configuration);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/test/*.xml"));
         return bean.getObject();

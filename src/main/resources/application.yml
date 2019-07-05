@@ -4,12 +4,12 @@ spring:
       username: hankun
       password: Hankun0421.
       driverClassName: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://47.107.137.149:3306/wf?serverTimezone=CTT
+      jdbc-url: jdbc:mysql://47.107.137.149:3306/wf?serverTimezone=CTT # 多数据源需要jdbc-url 单数据源url
     test:
       username: hankun
       password: Hankun0421.
       driverClassName: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://47.107.137.149:3306/test?serverTimezone=CTT
+      jdbc-url: jdbc:mysql://47.107.137.149:3306/test?serverTimezone=CTT # 多数据源需要jdbc-url 单数据源url
   mail:
     host: smtp.163.com
     username: hankun_0421@163.com
@@ -21,11 +21,16 @@ spring:
     username: hankun
     password: Hankun0421
 
+# 多数据源需要分别单设置参数
 mybatis:
 #  mapper-locations: classpath:mapper/*.xml
   configuration:
-    map-underscore-to-camel-case: true
-    use-generated-keys: true
+    wf:
+      map-underscore-to-camel-case: true
+      use-generated-keys: true
+    test:
+      map-underscore-to-camel-case: true
+      use-generated-keys: true
 
 server:
   port: 917

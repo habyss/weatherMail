@@ -18,15 +18,18 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 
+/**
+ * @author kun.han
+ */
 @Configuration
 @MapperScan(basePackages = "com.test.demo.mapper.wf", sqlSessionTemplateRef  = "wfSqlSessionTemplate")
 public class DataSourceConfigWF {
 
-//    @Bean(name = "wfConfiguration")
-//    @ConfigurationProperties(prefix = "mybatis.configuration")
-//    public org.apache.ibatis.session.Configuration configuration(){
-//        return new org.apache.ibatis.session.Configuration();
-//    }
+    @Bean(name = "wfConfiguration")
+    @ConfigurationProperties(prefix = "mybatis.configuration.wf")
+    public org.apache.ibatis.session.Configuration configuration(){
+        return new org.apache.ibatis.session.Configuration();
+    }
 
     @Bean(name = "wfDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.wf")
@@ -37,11 +40,9 @@ public class DataSourceConfigWF {
 
     @Bean(name = "wfSqlSessionFactory")
     @Primary
-    public SqlSessionFactory testSqlSessionFactory(@Qualifier("wfDataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory testSqlSessionFactory(@Qualifier("wfDataSource") DataSource dataSource,@Qualifier("wfConfiguration") org.apache.ibatis.session.Configuration configuration) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        configuration.setMapUnderscoreToCamelCase(true);
         bean.setConfiguration(configuration);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/wf/*.xml"));
         return bean.getObject();
