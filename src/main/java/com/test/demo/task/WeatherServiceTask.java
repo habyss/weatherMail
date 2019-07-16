@@ -1,6 +1,6 @@
 package com.test.demo.task;
 
-import com.test.demo.service.Impl.WeatherServiceImpl;
+import com.test.demo.service.impl.WeatherServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 

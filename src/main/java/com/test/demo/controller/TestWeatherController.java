@@ -1,7 +1,7 @@
 package com.test.demo.controller;
 
 import com.test.demo.entity.WeatherConfig;
-import com.test.demo.service.Impl.WeatherServiceImpl;
+import com.test.demo.service.impl.WeatherServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

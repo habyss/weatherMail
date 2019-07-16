@@ -1,4 +1,6 @@
 package com.test.demo.mapper.test;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.test.demo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,4 +21,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User getByName(User record);
+
+
 }

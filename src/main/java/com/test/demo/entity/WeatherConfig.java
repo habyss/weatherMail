@@ -58,4 +58,5 @@ public class WeatherConfig implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
 }

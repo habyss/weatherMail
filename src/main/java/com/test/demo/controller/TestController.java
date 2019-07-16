@@ -4,9 +4,10 @@ import com.test.demo.entity.User;
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.entity.WeatherConfigCommand;
 import com.test.demo.mapper.wf.WeatherConfigMapper;
-import com.test.demo.service.Impl.TestService;
-import com.test.demo.service.Impl.TestServiceNo;
-import com.test.demo.service.Impl.TestServiceYes;
+import com.test.demo.service.impl.TestServiceImpl;
+import com.test.demo.service.impl.TestServiceNo;
+import com.test.demo.service.impl.TestServiceYesImpl;
+import com.test.demo.service.TestServiceYes;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,10 +35,13 @@ public class TestController {
     TestServiceNo testServiceNo;
 
     @Resource
-    TestServiceYes testServiceYes;
+    TestServiceYesImpl testServiceYesImpl;
 
     @Resource
-    TestService testService;
+    TestServiceImpl testServiceImpl;
+
+    @Resource
+    TestServiceYes testServiceYes;
 
     @GetMapping("testNo")
     public void testNo(){
@@ -46,12 +50,12 @@ public class TestController {
 
     @GetMapping("testYes")
     public void testYes(){
-        testServiceYes.testYes();
+        testServiceYesImpl.testYes();
     }
 
     @GetMapping("testYesNo")
     public void testYesNo(){
-        testServiceYes.testNo();
+        testServiceYesImpl.testNo();
     }
 
     @GetMapping("getAllTest")
@@ -70,6 +74,12 @@ public class TestController {
 
     @GetMapping("testInsert")
     public User testInsert(){
-        return testService.testInsert();
+        return testServiceImpl.testInsert();
+    }
+
+    @GetMapping("getUser")
+    public User getUser(@RequestParam("name")String name){
+        return testServiceYes.getUser(name);
+
     }
 }

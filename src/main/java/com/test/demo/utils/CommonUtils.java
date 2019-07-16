@@ -5,6 +5,8 @@ package com.test.demo.utils;
  */
 public class CommonUtils {
 
+    public void test(){
 
+    }
 
 }

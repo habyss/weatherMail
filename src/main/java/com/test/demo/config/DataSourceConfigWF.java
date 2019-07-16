@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 
@@ -27,6 +25,7 @@ public class DataSourceConfigWF {
 
     @Bean(name = "wfConfiguration")
     @ConfigurationProperties(prefix = "mybatis.configuration.wf")
+    @Primary
     public org.apache.ibatis.session.Configuration configuration(){
         return new org.apache.ibatis.session.Configuration();
     }

@@ -20,6 +20,15 @@ spring:
     port: 15672
     username: hankun
     password: Hankun0421
+  task:
+    execution:
+      pool:
+        allow-core-thread-timeout: true
+        core-size: 10
+        keep-alive: 60s
+        max-size: 20
+        queue-capacity: 40
+      thread-name-prefix: 'Thread-'
 
 # 多数据源需要分别单设置参数
 mybatis:

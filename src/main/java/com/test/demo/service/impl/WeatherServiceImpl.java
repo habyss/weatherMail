@@ -1,4 +1,4 @@
-package com.test.demo.service.Impl;
+package com.test.demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.test.demo.entity.Weather;

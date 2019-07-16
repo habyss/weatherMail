@@ -1,4 +1,4 @@
-package com.test.demo.service.Impl;
+package com.test.demo.service.impl;
 
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.mapper.wf.WeatherConfigMapper;
