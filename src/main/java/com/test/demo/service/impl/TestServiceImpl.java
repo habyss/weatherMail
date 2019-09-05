@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 
 /**
@@ -46,5 +48,11 @@ public class TestServiceImpl implements TestService {
     @Override
     public User getUser(User user){
         return userMapper.getByName(user);
+    }
+
+    @Override
+    public List<Map<String, Object>> getList() {
+        List<Map<String, Object>> all = userMapper.getAll();
+        return all;
     }
 }

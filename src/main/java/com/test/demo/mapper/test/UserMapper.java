@@ -1,6 +1,7 @@
 package com.test.demo.mapper.test;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Map;
 
 import com.test.demo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,5 +25,9 @@ public interface UserMapper {
 
     User getByName(User record);
 
+
+    List<Map<String, Object>> getAll();
+
+    List<Map<String, Object>> getByUserId(@Param("uid") Long uid);
 
 }
