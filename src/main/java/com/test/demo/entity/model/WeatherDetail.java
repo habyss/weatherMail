@@ -1,4 +1,4 @@
-package com.test.demo.entity;
+package com.test.demo.entity.model;
 
 /**
  * @author kun.han on 2019/6/13 14:37

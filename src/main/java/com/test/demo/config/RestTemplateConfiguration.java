@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * @author kun.han
  */
 @Configuration
-public class RestConfiguration {
+public class RestTemplateConfiguration {
 
     @Bean
     public RestTemplate restTemplate() {

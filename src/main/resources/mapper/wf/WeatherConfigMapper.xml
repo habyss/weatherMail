@@ -115,7 +115,7 @@
     where `type`=#{type} and status = 1 order by update_time limit 1;
   </select>
 
-  <select id="getAllTest" resultType="com.test.demo.entity.WeatherConfigCommand">
+  <select id="getAllTest" resultType="com.test.demo.entity.model.WeatherConfigCommand">
     select
     <include refid="Base_Column_List" />
     from weather_config

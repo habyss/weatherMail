@@ -1,4 +1,6 @@
-package com.test.demo.entity;
+package com.test.demo.entity.model;
+
+import com.test.demo.entity.WeatherConfig;
 
 /**
  * @author kun.han on 2019/7/4 14:08
