@@ -14,6 +14,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.http.*;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -172,12 +174,25 @@ public class TestController {
         String pwdMd = userId + field + pwd + timestamp;
 
         String s = MD5Util.GetMD5Code(pwdMd).toLowerCase();
+
+        // 请求地址
         String url = "http://TSC3.800CT.COM:8086/sms/v2/std/single_send";
-//        String url = "http://TSC3.800CT.COM:8086/sms/v2/std/get_balance";
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
+        // 参数
+        Map<String, String> params = new HashMap<>(6);
+        params.put("userid", userId);
+        params.put("pwd", s);
+        params.put("mobile", mobile);
+        params.put("content", content);
+        params.put("timestamp", timestamp);
+        params.put("custid", "20190904150000");
+        // 请求头
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // 封装
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(params, headers);
+        // 发送请求
+        String result = restTemplate.postForObject(url, entity, String.class);
+        System.out.println(result);
 
         /*httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 //      封装参数，千万不要替换为Map与HashMap，否则参数无法传递
@@ -190,16 +205,6 @@ public class TestController {
         ResponseEntity<String> response = restTemplate.exchange("此处为url地址", HttpMethod.POST, requestEntity, String.class);
         String body = response.getBody();*/
 
-        Map<String, String> map = new HashMap<>(6);
-        map.put("userid", userId);
-        map.put("pwd", s);
-        map.put("mobile", mobile);
-        map.put("content", content);
-        map.put("timestamp", timestamp);
-        map.put("custid", "20190904150000");
-        String o = JSONObject.toJSONString(map);
-        HttpEntity<String> requestEntity = new HttpEntity<String>(o, httpHeaders);
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
+        // String o = JSONObject.toJSONString(map);
     }
 }
