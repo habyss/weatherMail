@@ -1,4 +1,8 @@
 spring:
+# 设置date返回数据为时间戳
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true
   datasource:
     wf:
       username: hankun

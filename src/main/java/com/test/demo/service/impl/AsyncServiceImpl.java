@@ -3,7 +3,6 @@ package com.test.demo.service.impl;
 import com.test.demo.entity.User;
 import com.test.demo.mapper.test.UserMapper;
 import com.test.demo.service.AsyncService;
-import com.test.demo.service.TestServiceYes;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,6 @@ public class AsyncServiceImpl implements AsyncService {
     @Resource
     UserMapper userMapper;
 
-    @Resource
-    TestServiceYes testServiceYes;
     /**
      * insert
      *
