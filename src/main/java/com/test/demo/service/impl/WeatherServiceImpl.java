@@ -14,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author kun.han on 2019/6/14 11:04
@@ -69,9 +69,6 @@ public class WeatherServiceImpl implements WeatherService {
         //整理数据
         logger.info("整理天气数据");
         String data = responseEntity.getBody();
-        if (Objects.nonNull(data)){
-
-        }
         String[] split = data.replaceAll(" ", "").split("var");
         Weather weather = JSONObject.parseObject(split[1].substring(split[1].indexOf(":") + 1, split[1].length() - 2), Weather.class);
         WeatherDetail weatherDetail = JSONObject.parseObject(split[3].substring(split[3].indexOf("=") + 1, split[3].length() - 1), WeatherDetail.class);
@@ -80,15 +77,15 @@ public class WeatherServiceImpl implements WeatherService {
         // 整理邮件数据
         logger.info("整理邮件数据");
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        List<String> list = weatherConfigMapper.getAllByType(Constant.TYPE_TO).stream().map(WeatherConfig::getValue).collect(Collectors.toList());
-        String[] to = list.toArray(new String[list.size()]);
+        String[] to = weatherConfigMapper.getAllByType(Constant.TYPE_TO).stream().map(WeatherConfig::getValue).toArray(String[]::new);
         String from = weatherConfigMapper.getOneByType(Constant.TYPE_FROM).getValue();
 
         // 设置收件人 寄件人 内容
         logger.info("收件人 :[{}]", JSONObject.toJSON(to));
         simpleMailMessage.setTo(to);
         simpleMailMessage.setFrom(from);
-        simpleMailMessage.setSubject(getSubject());
+        // simpleMailMessage.setSubject(getSubject());
+        simpleMailMessage.setSubject(getSubjectFromUrl());
         simpleMailMessage.setText(getTextBody(weather, weatherCustom));
         // 发送邮件
         logger.info("发送天气邮件");
@@ -143,16 +140,16 @@ public class WeatherServiceImpl implements WeatherService {
      * @return string
      */
     private String getSubject() {
-
-        LocalDateTime now = LocalDateTime.now();
         Date nowDate = new Date();
-        DayOfWeek dayOfWeek = now.getDayOfWeek();
-
         WeatherConfig subject = weatherConfigMapper.getSubject(Constant.TYPE_SUBJECT);
         subject.setUpdateTime(nowDate);
         weatherConfigMapper.updateByPrimaryKey(subject);
-
         return subject.getValue();
+    }
+
+    public String getSubjectFromUrl(){
+        String url = "https://chp.shadiao.app/api.php";
+        return restTemplate.getForObject(url, String.class);
     }
 
     /**
