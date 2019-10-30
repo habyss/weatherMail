@@ -47,3 +47,5 @@ mybatis:
 
 server:
   port: 917
+
+steal-url: https://chp.shadiao.app/api.php

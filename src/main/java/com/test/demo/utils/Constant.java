@@ -12,7 +12,10 @@ public class Constant {
     public static final String SUCCESS_SEND = "邮件发送成功";
     public static final String SUCCESS_ADD = "添加成功";
     public static final String SUCCESS_DELETE = "删除成功";
+    public static final String FAIL_DELETE = "删除失败";
     public static final String SUCCESS_UPDATE = "更新成功";
+
+    public static final String NO_REPEAT_DATA = "没有重复的数据";
 
 
 }

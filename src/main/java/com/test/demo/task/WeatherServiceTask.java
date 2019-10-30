@@ -1,6 +1,8 @@
 package com.test.demo.task;
 
 import com.test.demo.service.impl.WeatherServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import javax.annotation.Resource;
 @Service
 public class WeatherServiceTask {
 
+    private Logger logger = LoggerFactory.getLogger(WeatherServiceTask.class);
+
     @Resource
     private WeatherServiceImpl weatherService;
 
@@ -21,5 +25,11 @@ public class WeatherServiceTask {
     @Scheduled(cron = "0 30 7 * * ?")
     public void getWeather() {
         weatherService.sendWeatherMail();
+    }
+
+    @Scheduled(cron = "0 0/3 8 * * ?")
+    public void stealSubject(){
+        String subject = weatherService.stealSubject();
+        logger.debug(subject);
     }
 }

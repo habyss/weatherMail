@@ -1,7 +1,9 @@
 package com.test.demo.controller;
 
 import com.test.demo.entity.WeatherConfig;
+import com.test.demo.service.WeatherService;
 import com.test.demo.service.impl.WeatherServiceImpl;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +17,7 @@ import java.util.List;
 @RestController
 public class WeatherTestController {
     @Resource
-    private WeatherServiceImpl weatherService;
+    private WeatherService weatherService;
 
     @GetMapping("sendWeatherMail")
     public String sendWeatherMail(){
@@ -35,6 +37,11 @@ public class WeatherTestController {
     @GetMapping("getAllSubject")
     public List<WeatherConfig> getAllSubject(){
         return weatherService.getAllSubject();
+    }
+
+    @DeleteMapping("clear")
+    public String clear(){
+        return weatherService.clear();
     }
 
 }

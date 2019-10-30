@@ -38,4 +38,10 @@ public interface WeatherService {
      * @return list
      */
     List<WeatherConfig> getAllSubject();
+
+    /**
+     * 清理重复的subject
+     * @return
+     */
+    String clear();
 }

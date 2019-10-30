@@ -3,6 +3,7 @@ package com.test.demo.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.entity.model.Weather;
+import com.test.demo.entity.model.WeatherConfigCommand;
 import com.test.demo.entity.model.WeatherCustom;
 import com.test.demo.entity.model.WeatherDetail;
 import com.test.demo.mapper.wf.WeatherConfigMapper;
@@ -10,11 +11,12 @@ import com.test.demo.service.WeatherService;
 import com.test.demo.utils.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -23,7 +25,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author kun.han on 2019/6/14 11:04
@@ -41,6 +43,9 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Resource
     private WeatherConfigMapper weatherConfigMapper;
+
+    @Value("${steal-url}")
+    private String stealUrl;
 
     /**
      * 发送邮件
@@ -84,8 +89,7 @@ public class WeatherServiceImpl implements WeatherService {
         logger.info("收件人 :[{}]", JSONObject.toJSON(to));
         simpleMailMessage.setTo(to);
         simpleMailMessage.setFrom(from);
-        // simpleMailMessage.setSubject(getSubject());
-        simpleMailMessage.setSubject(getSubjectFromUrl());
+        simpleMailMessage.setSubject(getSubject());
         simpleMailMessage.setText(getTextBody(weather, weatherCustom));
         // 发送邮件
         logger.info("发送天气邮件");
@@ -148,8 +152,7 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     public String getSubjectFromUrl(){
-        String url = "https://chp.shadiao.app/api.php";
-        return restTemplate.getForObject(url, String.class);
+        return restTemplate.getForObject(stealUrl, String.class);
     }
 
     /**
@@ -195,5 +198,41 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public List<WeatherConfig> getAllSubject() {
         return weatherConfigMapper.getAllByType(Constant.TYPE_SUBJECT);
+    }
+
+    public String stealSubject(){
+        Date now = new Date();
+        String subject = getSubjectFromUrl();
+        List<WeatherConfig> allByValue = weatherConfigMapper.getAllByValue(subject);
+        if (!CollectionUtils.isEmpty(allByValue)) {
+            return "已存在 : " + subject;
+        }
+        WeatherConfig weatherConfig = new WeatherConfig();
+        weatherConfig.setStatus(1);
+        weatherConfig.setUpdateTime(now);
+        weatherConfig.setType(Constant.TYPE_SUBJECT);
+        weatherConfig.setValue(subject);
+        weatherConfigMapper.insertSelective(weatherConfig);
+        return subject;
+    }
+
+    /**
+     * 清理重复的subject
+     *
+     * @return
+     */
+    @Override
+    public String clear() {
+        List<WeatherConfigCommand> weatherConfigs = weatherConfigMapper.getAllRepeat();
+        if (CollectionUtils.isEmpty(weatherConfigs)) {
+            return Constant.NO_REPEAT_DATA;
+        }
+        List<Long> ids = weatherConfigs.stream().map(WeatherConfig::getId).collect(Collectors.toList());
+        int result = weatherConfigMapper.deleteByIdIn(ids);
+        if (result >= 1){
+            return Constant.SUCCESS_DELETE;
+        }else {
+            return Constant.FAIL_DELETE;
+        }
     }
 }
