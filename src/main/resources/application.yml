@@ -8,22 +8,22 @@ spring:
       username: hankun
       password: Hankun0421.
       driverClassName: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://47.107.137.149:3306/wf?serverTimezone=CTT # 多数据源需要jdbc-url 单数据源url
+      jdbc-url: jdbc:mysql://182.43.148.85:3306/wf?serverTimezone=CTT # 多数据源需要jdbc-url 单数据源url
     test:
       username: hankun
       password: Hankun0421.
       driverClassName: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://47.107.137.149:3306/test?serverTimezone=CTT # 多数据源需要jdbc-url 单数据源url
+      jdbc-url: jdbc:mysql://182.43.148.85:3306/test?serverTimezone=CTT # 多数据源需要jdbc-url 单数据源url
   mail:
     host: smtp.163.com
     username: hankun_0421@163.com
     password: Hankun0421
     port: 465
-  rabbitmq:
-    host: 47.107.137.149
-    port: 15672
-    username: hankun
-    password: Hankun0421
+#  rabbitmq:
+#    host: 47.107.137.149
+#    port: 15672
+#    username: hankun
+#    password: Hankun0421
   task:
     execution:
       pool:

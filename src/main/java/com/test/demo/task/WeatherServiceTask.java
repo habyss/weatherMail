@@ -27,6 +27,11 @@ public class WeatherServiceTask {
         weatherService.sendWeatherMail();
     }
 
+    @Scheduled(cron = "0 0/1 * * * ?")
+    public void test() {
+        logger.info("test - scheduled");
+    }
+
     @Scheduled(cron = "0 0/3 8 * * ?")
     public void stealSubject(){
         String subject = weatherService.stealSubject();
