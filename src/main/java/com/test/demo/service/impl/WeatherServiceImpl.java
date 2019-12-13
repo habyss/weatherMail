@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -198,6 +199,11 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public List<WeatherConfig> getAllSubject() {
         return weatherConfigMapper.getAllByType(Constant.TYPE_SUBJECT);
+    }
+
+    @Override
+    public List<Map> test() {
+        return weatherConfigMapper.test(Constant.TYPE_SUBJECT);
     }
 
     public String stealSubject(){

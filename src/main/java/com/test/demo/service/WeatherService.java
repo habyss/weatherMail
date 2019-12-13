@@ -3,6 +3,7 @@ package com.test.demo.service;
 import com.test.demo.entity.WeatherConfig;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author kun.han on 2019/6/14 11:01
@@ -38,6 +39,7 @@ public interface WeatherService {
      * @return list
      */
     List<WeatherConfig> getAllSubject();
+    List<Map> test();
 
     /**
      * 清理重复的subject

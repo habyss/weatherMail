@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author kun.han on 2019/6/17 9:43
@@ -39,6 +40,8 @@ public interface WeatherConfigMapper {
     int deleteByIdIn(@Param("idCollection")Collection<Long> idCollection);
 
     List<WeatherConfig> getAllByValue(@Param("value")String value);
+
+    List<Map> test(@Param("type") String type);
 
 
 

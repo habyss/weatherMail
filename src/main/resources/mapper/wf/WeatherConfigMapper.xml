@@ -143,4 +143,11 @@
     from weather_config
     where `value`=#{value}
   </select>
+
+  <select id="test" resultType="hashmap">
+    select
+    id, `type`, `status`, `value`, update_time
+    from weather_config
+    where `type`=#{type} and status = 1
+  </select>
 </mapper>

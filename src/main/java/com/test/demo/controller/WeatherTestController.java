@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author kun.han on 2019/6/12 17:07
@@ -37,6 +38,10 @@ public class WeatherTestController {
     @GetMapping("getAllSubject")
     public List<WeatherConfig> getAllSubject(){
         return weatherService.getAllSubject();
+    }
+    @GetMapping("getAllTest")
+    public List<Map> getAllTest(){
+        return weatherService.test();
     }
 
     @DeleteMapping("clear")
