@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.demo.mapper.wf.TitleMapper">
+  <resultMap id="BaseResultMap" type="com.test.demo.entity.Title">
+    <!--@mbg.generated-->
+    <!--@Table t_title-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content_id" jdbcType="INTEGER" property="contentId" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_time" jdbcType="TIMESTAMP" property="lastTime" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, title, content_id, create_name, last_name, create_time, last_time, url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_title
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from t_title
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.test.demo.entity.Title" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_title (title, content_id, create_name, 
+      last_name, create_time, last_time, 
+      url)
+    values (#{title,jdbcType=VARCHAR}, #{contentId,jdbcType=INTEGER}, #{createName,jdbcType=VARCHAR}, 
+      #{lastName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.test.demo.entity.Title" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_title
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="contentId != null">
+        content_id,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="lastName != null">
+        last_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastTime != null">
+        last_time,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="contentId != null">
+        #{contentId,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.demo.entity.Title">
+    <!--@mbg.generated-->
+    update t_title
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="contentId != null">
+        content_id = #{contentId,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        last_time = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.demo.entity.Title">
+    <!--@mbg.generated-->
+    update t_title
+    set title = #{title,jdbcType=VARCHAR},
+      content_id = #{contentId,jdbcType=INTEGER},
+      create_name = #{createName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update t_title
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="title = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.title,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="content_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.contentId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="create_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="last_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.lastName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="last_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.lastTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.url,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchByContentId" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update t_title
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="last_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when content_id = #{item.contentId,jdbcType=BIGINT} then #{item.lastName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="last_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when content_id = #{item.contentId,jdbcType=BIGINT} then #{item.lastTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where content_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.contentId,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_title
+    (title, content_id, create_name, last_name, create_time, last_time, url)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.title,jdbcType=VARCHAR}, #{item.contentId,jdbcType=INTEGER}, #{item.createName,jdbcType=VARCHAR}, 
+        #{item.lastName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.lastTime,jdbcType=TIMESTAMP}, 
+        #{item.url,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+<!--auto generated by MybatisCodeHelper on 2019-12-13-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_title
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2019-12-13-->
+  <delete id="deleteByContentIdIn">
+    delete from t_title
+    where content_id in
+    <foreach item="item" index="index" collection="contentIdCollection"
+             open="(" separator="," close=")">
+      #{item,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+
+<!--auto generated by MybatisCodeHelper on 2019-12-13-->
+  <select id="selectAllByTitle" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_title
+    <where>
+      <if test="title != null">
+        and title like concat('%', #{title,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+    order by last_time desc
+  </select>
+</mapper>

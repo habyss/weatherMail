@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.demo.mapper.wf.ContentMapper">
+  <resultMap id="BaseResultMap" type="com.test.demo.entity.Content">
+    <!--@mbg.generated-->
+    <!--@Table t_content-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
+    <result column="title_id" jdbcType="BIGINT" property="titleId" />
+    <result column="post_id" jdbcType="VARCHAR" property="postId" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `uid`, u_name, title_id, post_id, content, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_content
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from t_content
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.test.demo.entity.Content" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_content (`uid`, u_name, title_id, 
+      post_id, content, create_time
+      )
+    values (#{uid,jdbcType=BIGINT}, #{uName,jdbcType=VARCHAR}, #{titleId,jdbcType=BIGINT}, 
+      #{postId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.test.demo.entity.Content" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="uName != null">
+        u_name,
+      </if>
+      <if test="titleId != null">
+        title_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="uName != null">
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="titleId != null">
+        #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.demo.entity.Content">
+    <!--@mbg.generated-->
+    update t_content
+    <set>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="uName != null">
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="titleId != null">
+        title_id = #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.demo.entity.Content">
+    <!--@mbg.generated-->
+    update t_content
+    set `uid` = #{uid,jdbcType=BIGINT},
+      u_name = #{uName,jdbcType=VARCHAR},
+      title_id = #{titleId,jdbcType=BIGINT},
+      post_id = #{postId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update t_content
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="`uid` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.uid,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="u_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.uName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="title_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.titleId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="post_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.postId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="content = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.content,jdbcType=LONGVARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_content
+    (`uid`, u_name, title_id, post_id, content, create_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.uid,jdbcType=BIGINT}, #{item.uName,jdbcType=VARCHAR}, #{item.titleId,jdbcType=BIGINT}, 
+        #{item.postId,jdbcType=VARCHAR}, #{item.content,jdbcType=LONGVARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}
+        )
+    </foreach>
+  </insert>
+
+<!--auto generated by MybatisCodeHelper on 2019-12-13-->
+  <delete id="deleteByTitleIdIn">
+    delete from t_content
+    where title_id in
+    <foreach item="item" index="index" collection="titleIdCollection"
+             open="(" separator="," close=")">
+      #{item,jdbcType=BIGINT}
+    </foreach>
+  </delete>
+</mapper>
