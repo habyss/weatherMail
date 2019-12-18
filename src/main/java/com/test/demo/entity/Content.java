@@ -3,7 +3,7 @@ package com.test.demo.entity;
 import java.util.Date;
 
 /**
- * @author kun.han on 2019/12/12 17:26
+ * @author kun.han on 2019/12/18 13:33
  */
 public class Content {
     private Long id;
@@ -19,6 +19,8 @@ public class Content {
     private String content;
 
     private Date createTime;
+
+    private Integer contentId;
 
     public Long getId() {
         return id;
@@ -76,6 +78,14 @@ public class Content {
         this.createTime = createTime;
     }
 
+    public Integer getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(Integer contentId) {
+        this.contentId = contentId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -89,6 +99,7 @@ public class Content {
         sb.append(", postId=").append(postId);
         sb.append(", content=").append(content);
         sb.append(", createTime=").append(createTime);
+        sb.append(", contentId=").append(contentId);
         sb.append("]");
         return sb.toString();
     }

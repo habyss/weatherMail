@@ -8,8 +8,6 @@ import com.test.demo.entity.model.Page;
 import com.test.demo.mapper.wf.ContentMapper;
 import com.test.demo.mapper.wf.TitleMapper;
 import com.test.demo.service.LeiTingService;
-import com.test.demo.utils.Constant;
-import com.test.demo.utils.JsonResult;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,16 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.io.Console;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -65,9 +61,11 @@ public class LeiTingServiceImpl implements LeiTingService {
             }
             // 清空前num页的数据库数据
             List<Integer> contentIds = titles.stream().map(Title::getContentId).collect(Collectors.toList());
+
             titleMapper.deleteByContentIdIn(contentIds);
-            List<Long> titleIds = titles.stream().map(Title::getId).filter(Objects::nonNull).collect(Collectors.toList());
-            contentMapper.deleteByTitleIdIn(titleIds);
+            System.out.println("清除title  ----------- ");
+            contentMapper.deleteByContentIdIn(contentIds);
+            System.out.println("清除content   ---------------");
             // 插入title数据
             titleMapper.batchInsert(titles);
             System.out.println("插入title  -------    " + i);

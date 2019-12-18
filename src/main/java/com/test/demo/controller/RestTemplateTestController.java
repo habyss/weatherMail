@@ -5,6 +5,7 @@ import com.test.demo.entity.Content;
 import com.test.demo.entity.Title;
 import com.test.demo.mapper.wf.ContentMapper;
 import com.test.demo.mapper.wf.TitleMapper;
+import com.test.demo.service.LeiTingService;
 import com.test.demo.utils.MD5Util;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,6 +49,8 @@ public class RestTemplateTestController {
     private TitleMapper titleMapper;
     @Resource
     private ContentMapper contentMapper;
+    @Resource
+    private LeiTingService leiTingService;
 
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-M-d HH:mm");
 
@@ -233,6 +236,17 @@ public class RestTemplateTestController {
             title.setLastName(lastName);
             title.setLastTime(lastTime);
             titles.add(title);
+        }
+    }
+
+    @GetMapping("leitingUpdate")
+    public void leitingUpdate(@RequestParam("num") Integer num){
+        // List<Title> titles = titleMapper.selectAll();
+        // contentMapper.updateBatchs(titles);
+        try {
+            leiTingService.updateByNum(num);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
