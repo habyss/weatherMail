@@ -32,9 +32,9 @@ public class WeatherServiceTask {
         logger.info("test - scheduled");
     }
 
-    @Scheduled(cron = "0 0/3 8 * * ?")
-    public void stealSubject(){
-        String subject = weatherService.stealSubject();
-        logger.debug(subject);
-    }
+    // @Scheduled(cron = "0 0/3 8 * * ?")
+    // public void stealSubject(){
+    //     String subject = weatherService.stealSubject();
+    //     logger.debug(subject);
+    // }
 }

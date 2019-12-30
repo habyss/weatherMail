@@ -126,7 +126,7 @@ public class WeatherServiceImpl implements WeatherService {
         }
         sb.append(weatherCustom.getGj_des_s()).append("\n\n")
                 .append("不能喝酒的人，还老是想喝酒，今天").append(weatherCustom.getPj_des_s().replaceAll("。", "，")).append("但是啤酒\uD83C\uDF7B不好喝噻\n\n")
-                .append("身体是革命的本钱呢\uD83D\uDCAA，").append(weatherCustom.getGm_des_s()).append(weatherCustom.getZs_des_s()).append("\n\n")
+                .append("身体是革命的本钱呢\uD83D\uDCAA，").append(weatherCustom.getGm_des_s()).append("\n\n")
                 .append("今天洗不洗衣服呢，");
         if (boo) {
             sb.append("周末的早晨，应该可以洗一洗吧\uD83D\uDC12，");
