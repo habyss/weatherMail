@@ -69,34 +69,35 @@ public class RestTemplateTestController {
             }
             titleMapper.batchInsert(titles);
             System.out.println("插入title  -------    " + i);
-            for (Title title : titles) {
-                System.out.println(title.getUrl());
-                List<Content> list = new ArrayList<>();
-                getContents(title, list);
-                if (CollectionUtils.isEmpty(list)){
-                    continue;
-                }
-                contentMapper.batchInsert(list);
-                System.out.println("插入content  -------    " + title.getTitle());
-            }
+            // content表 暂时不用
+            // for (Title title : titles) {
+            //     System.out.println(title.getUrl());
+            //     List<Content> list = new ArrayList<>();
+            //     getContents(title, list);
+            //     if (CollectionUtils.isEmpty(list)){
+            //         continue;
+            //     }
+            //     contentMapper.batchInsert(list);
+            //     System.out.println("插入content  -------    " + title.getTitle());
+            // }
         }
     }
 
-    @GetMapping("leiting1")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void leiting1(@RequestParam("num")Integer num) throws IOException, ParseException {
-        String baseUrl = "http://bbs.leiting.com/forum-292-";
+    @GetMapping("leitingNormal")
+    @Transactional(rollbackFor = Exception.class)
+    public void leitingNormal(@RequestParam("num")Integer num) throws IOException, ParseException {
+        String baseUrl = "http://bbs.leiting.com/forum-288-";
         String endUrl = ".html";
         for (int i = 1; i <= num; i++) {
             List<Title> titles = new ArrayList<>();
             String url = baseUrl + i + endUrl;
             // 获取所有的titles
-            updateLast(url, titles);
+            getTitles(url, titles);
             if (CollectionUtils.isEmpty(titles)){
                 return;
             }
-            titleMapper.updateBatchByContentId(titles);
-            System.out.println(" update        -------------             " + i);
+            titleMapper.batchInsert(titles);
+            System.out.println("插入title  -------    " + i);
         }
     }
 

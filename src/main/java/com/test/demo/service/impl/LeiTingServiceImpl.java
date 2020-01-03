@@ -64,20 +64,34 @@ public class LeiTingServiceImpl implements LeiTingService {
 
             titleMapper.deleteByContentIdIn(contentIds);
             System.out.println("清除title  ----------- ");
-            contentMapper.deleteByContentIdIn(contentIds);
-            System.out.println("清除content   ---------------");
+            // contentMapper.deleteByContentIdIn(contentIds);
+            // System.out.println("清除content   ---------------");
             // 插入title数据
             titleMapper.batchInsert(titles);
             System.out.println("插入title  -------    " + i);
-            for (Title title : titles) {
-                List<Content> list = new ArrayList<>();
-                getContents(title, list);
-                if (CollectionUtils.isEmpty(list)){
-                    continue;
-                }
-                contentMapper.batchInsert(list);
-                System.out.println("插入content  -------    " + title.getTitle());
+            // content暂时不用
+            // for (Title title : titles) {
+            //     List<Content> list = new ArrayList<>();
+            //     getContents(title, list);
+            //     if (CollectionUtils.isEmpty(list)){
+            //         continue;
+            //     }
+            //     contentMapper.batchInsert(list);
+            //     System.out.println("插入content  -------    " + title.getTitle());
+            // }
+        }
+
+        baseUrl = "http://bbs.leiting.com/forum-288-";
+        for (int i = 1; i <= num; i++) {
+            List<Title> titles = new ArrayList<>();
+            String url = baseUrl + i + endUrl;
+            // 获取所有的titles
+            getTitles(url, titles);
+            if (CollectionUtils.isEmpty(titles)){
+                return;
             }
+            titleMapper.batchInsert(titles);
+            System.out.println("插入title  -------    " + i);
         }
     }
 

@@ -17,6 +17,6 @@ public class LeiTingServiceTask {
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void getWeather() throws Exception {
-        leiTingService.updateByNum(3);
+        leiTingService.updateByNum(5);
     }
 }
