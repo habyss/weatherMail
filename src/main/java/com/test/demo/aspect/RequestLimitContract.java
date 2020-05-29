@@ -7,11 +7,13 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * @author kun.han
@@ -23,8 +25,16 @@ public class RequestLimitContract {
     @Before("@annotation(limit)")
     public void requestLimit(final JoinPoint joinPoint, RequestLimit limit) {
         System.out.println("limit - count" + limit.count() + " time" + limit.time());
+        String name = joinPoint.getSignature().getName();
+        System.out.println("name = " + name);
+        Object[] args = joinPoint.getArgs();
+        System.out.println(Arrays.toString(args));
         String ip = getIp();
         System.out.println(ip);
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        String[] parameterNames = signature.getParameterNames();
+        System.out.println("parameterNames = " + Arrays.toString(parameterNames));
+        // throw new RuntimeException("test");
     }
 
 //    @Before("within(com.test.demo.controller.*)")

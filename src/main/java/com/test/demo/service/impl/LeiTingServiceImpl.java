@@ -90,6 +90,10 @@ public class LeiTingServiceImpl implements LeiTingService {
             if (CollectionUtils.isEmpty(titles)){
                 return;
             }
+            // 清空前num页的数据库数据
+            List<Integer> contentIds = titles.stream().map(Title::getContentId).collect(Collectors.toList());
+            titleMapper.deleteByContentIdIn(contentIds);
+            System.out.println("清除title  ----------- ");
             titleMapper.batchInsert(titles);
             System.out.println("插入title  -------    " + i);
         }

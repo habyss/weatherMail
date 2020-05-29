@@ -28,12 +28,12 @@ public class Sudoku {
      * @param i 行号
      * @param j 列号
      */
-    public int[][] backTrace(int i, int j) {
+    public void backTrace(int i, int j) {
         if (i == 8 && j == 9) {
             //已经成功了，打印数组即可
             System.out.println("获取正确解");
             printArray();
-            return matrix;
+            return;
         }
 
         //已经到了列末尾了，还没到行尾，就换行
@@ -58,7 +58,6 @@ public class Sudoku {
             //如果该位置已经有值了，就进入下一个空格进行计算
             backTrace(i, j + 1);
         }
-        return matrix;
     }
 
     /**

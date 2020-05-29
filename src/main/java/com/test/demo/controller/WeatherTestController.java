@@ -1,5 +1,6 @@
 package com.test.demo.controller;
 
+import com.test.demo.annotation.RequestLimit;
 import com.test.demo.entity.WeatherConfig;
 import com.test.demo.service.WeatherService;
 import com.test.demo.service.impl.WeatherServiceImpl;
@@ -35,8 +36,9 @@ public class WeatherTestController {
         return weatherService.deleteSubject(id);
     }
 
+    @RequestLimit
     @GetMapping("getAllSubject")
-    public List<WeatherConfig> getAllSubject(){
+    public List<WeatherConfig> getAllSubject(Integer id){
         return weatherService.getAllSubject();
     }
     @GetMapping("getAllTest")

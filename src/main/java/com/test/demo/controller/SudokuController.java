@@ -1,16 +1,11 @@
 package com.test.demo.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.test.demo.entity.model.Sudoku;
 import com.test.demo.utils.BaseAO;
 import com.test.demo.utils.Constant;
 import com.test.demo.utils.JsonResult;
-import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author kun.han on 2020/1/2 14:16
@@ -18,16 +13,92 @@ import javax.annotation.Resource;
 @RestController
 public class SudokuController {
 
-    @Resource
-    ObjectMapper mapper;
+    private int[][] matrix;
 
-    @SneakyThrows
     @PostMapping("solveSudo")
     public BaseAO solveSudo(@RequestBody int[][] sudo) {
         // 号称世界上最难数独
-        Sudoku sudoku = new Sudoku();
-        sudoku.setMatrix(sudo);
-        int[][] result = sudoku.backTrace(0, 0);
-        return JsonResult.successMap(Constant.SUCCESS_FIND, result);
+        this.matrix = sudo;
+        backTrace(0, 0);
+        return JsonResult.successMap(Constant.SUCCESS_FIND, matrix);
+    }
+    /**
+     * 数独算法
+     *
+     * @param i 行号
+     * @param j 列号
+     */
+    public void backTrace(int i, int j) {
+        if (i == 8 && j == 9) {
+            //已经成功了，打印数组即可
+            System.out.println("获取正确解");
+            printArray();
+            return;
+        }
+
+        //已经到了列末尾了，还没到行尾，就换行
+        if (j == 9) {
+            i++;
+            j = 0;
+        }
+
+        //如果i行j列是空格，那么才进入给空格填值的逻辑
+        if (matrix[i][j] == 0) {
+            for (int k = 1; k <= 9; k++) {
+                //判断给i行j列放1-9中的任意一个数是否能满足规则
+                if (check(i, j, k)) {
+                    //将该值赋给该空格，然后进入下一个空格
+                    matrix[i][j] = k;
+                    backTrace(i, j + 1);
+                    //初始化该空格
+                    matrix[i][j] = 0;
+                }
+            }
+        } else {
+            //如果该位置已经有值了，就进入下一个空格进行计算
+            backTrace(i, j + 1);
+        }
+    }
+
+    /**
+     * 判断给某行某列赋值是否符合规则
+     *
+     * @param row    被赋值的行号
+     * @param line   被赋值的列号
+     * @param number 赋的值
+     * @return
+     */
+    private boolean check(int row, int line, int number) {
+        //判断该行该列是否有重复数字
+        for (int i = 0; i < 9; i++) {
+            if (matrix[row][i] == number || matrix[i][line] == number) {
+                return false;
+            }
+        }
+        //判断小九宫格是否有重复
+        int tempRow = row / 3;
+        int tempLine = line / 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (matrix[tempRow * 3 + i][tempLine * 3 + j] == number) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 打印矩阵
+     */
+    public void printArray() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 }
