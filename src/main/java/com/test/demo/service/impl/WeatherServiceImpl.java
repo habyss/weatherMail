@@ -9,13 +9,16 @@ import com.test.demo.entity.model.WeatherDetail;
 import com.test.demo.mapper.wf.WeatherConfigMapper;
 import com.test.demo.service.WeatherService;
 import com.test.demo.utils.Constant;
+import com.test.demo.utils.DebugUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -156,6 +159,8 @@ public class WeatherServiceImpl implements WeatherService {
         return restTemplate.getForObject(stealUrl, String.class);
     }
 
+    @Resource
+    DataSourceTransactionManager wfTransactionManager;
     /**
      * 增加subject
      *
@@ -163,7 +168,9 @@ public class WeatherServiceImpl implements WeatherService {
      * @return string
      */
     @Override
+    @Transactional(rollbackFor = Exception.class, value = "wfTransactionManager")
     public String addSubject(String subject) {
+        DebugUtils.showTransactionStatus("WeatherServiceImpl.addSubject");
         Date now = new Date();
         WeatherConfig weather = new WeatherConfig();
         weather.setUpdateTime(now);
@@ -172,6 +179,7 @@ public class WeatherServiceImpl implements WeatherService {
         weather.setValue(subject);
         weatherConfigMapper.insert(weather);
         logger.info(Constant.SUCCESS_ADD + " -- subject:" + weather.getValue());
+        int i = 1 / 0;
         return Constant.SUCCESS_ADD;
     }
 

@@ -57,6 +57,11 @@ public class TestController {
         return null;
     }
 
+    @GetMapping("testIn")
+    public String testIn(){
+        return weatherService.addSubject("test");
+    }
+
 }
 
 
